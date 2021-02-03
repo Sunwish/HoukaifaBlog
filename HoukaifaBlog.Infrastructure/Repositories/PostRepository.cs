@@ -18,6 +18,11 @@ namespace HoukaifaBlog.Infrastructure.Repositories
             this.myContext = myContext;
         }
 
+        public void AddPost(Post post)
+        {
+            myContext.Posts.Add(post);
+        }
+
         public async Task<IEnumerable<Post>> GetAllPostAsync()
         {
             return await myContext.Posts.ToListAsync();

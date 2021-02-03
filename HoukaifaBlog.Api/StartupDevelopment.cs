@@ -37,6 +37,7 @@ namespace HoukaifaBlog.Api
             });
 
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Enable Https Redirection
             services.AddHttpsRedirection(options =>
