@@ -27,5 +27,10 @@ namespace HoukaifaBlog.Infrastructure.Repositories
         {
             return await myContext.Posts.ToListAsync();
         }
+
+        public async Task<Post> GetPostByIdAsync(int id)
+        {
+            return await myContext.Posts.FindAsync(id);
+        }
     }
 }

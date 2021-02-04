@@ -10,6 +10,8 @@ namespace HoukaifaBlog.Core.Interfaces
     {
         Task<IEnumerable<Post>> GetAllPostAsync();
 
+        Task<Post> GetPostByIdAsync(int id);
+
         void AddPost(Post post);
     }
 }

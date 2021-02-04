@@ -37,13 +37,25 @@ namespace HoukaifaBlog.Api.Controllers
         {
             var posts = await postRepository.GetAllPostAsync();
 
-            logger.LogInformation("Get all posts.....");
+            // logger.LogInformation("Get all posts.....");
 
             var postResources = mapper.Map<IEnumerable<Post>, IEnumerable<PostResource>>(posts);
 
             // throw new Exception("Globle Error Handler Test!!!!!");
 
             return Ok(postResources);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var post = await postRepository.GetPostByIdAsync(id);
+
+            if (post == null) return NotFound();
+
+            var postResource = mapper.Map<Post, PostResource>(post);
+
+            return Ok(postResource);
         }
 
         [HttpPost]

@@ -12,6 +12,7 @@ using HoukaifaBlog.Infrastructure.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +35,10 @@ namespace HoukaifaBlog.Api
             services.AddMvc(options =>
             {
                 options.EnableEndpointRouting = false;
+
+                // Return 406 when request output format not acceptable, and enable xml output
+                options.ReturnHttpNotAcceptable = true;
+                options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
             });
 
             services.AddDbContext<MyContext>(options =>
