@@ -8,7 +8,7 @@ namespace HoukaifaBlog.Core.Interfaces
 {
     public interface IPostRepository
     {
-        Task<IEnumerable<Post>> GetAllPostAsync();
+        Task<PaginatedList<Post>> GetAllPostAsync(PostParameters postParameters);
 
         Task<Post> GetPostByIdAsync(int id);
 

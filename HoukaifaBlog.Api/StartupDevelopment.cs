@@ -12,7 +12,10 @@ using HoukaifaBlog.Infrastructure.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -61,6 +64,14 @@ namespace HoukaifaBlog.Api
 
             // Resources validator
             services.AddTransient<IValidator<PostResource>, PostResourceValidator>();
+
+            // Configure UrlHelper for page turning (help generate Next and Prev page link)
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddScoped<IUrlHelper>(factory => 
+            {
+                var actionContext = factory.GetService<IActionContextAccessor>().ActionContext;
+                return new UrlHelper(actionContext);
+            });
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HoukaifaBlog.Core.Entities;
@@ -23,9 +24,18 @@ namespace HoukaifaBlog.Infrastructure.Repositories
             myContext.Posts.Add(post);
         }
 
-        public async Task<IEnumerable<Post>> GetAllPostAsync()
+        public async Task<PaginatedList<Post>> GetAllPostAsync(PostParameters postParameters)
         {
-            return await myContext.Posts.ToListAsync();
+            var query = myContext.Posts.OrderBy(x => x.Id);
+
+            var count = await query.CountAsync();
+
+            var data = await query
+                .Skip(postParameters.PageIndex * postParameters.PageSize)
+                .Take(postParameters.PageSize)
+                .ToListAsync();
+
+            return new PaginatedList<Post>(postParameters.PageIndex, postParameters.PageSize, count, data);
         }
 
         public async Task<Post> GetPostByIdAsync(int id)
