@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HoukaifaBlog.Api.Extensions;
 using HoukaifaBlog.Core.Interfaces;
 using HoukaifaBlog.Infrastructure.Database;
 using HoukaifaBlog.Infrastructure.Repositories;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace HoukaifaBlog.Api
 {
@@ -47,9 +49,10 @@ namespace HoukaifaBlog.Api
             });
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            app.UseDeveloperExceptionPage();
+            //app.UseDeveloperExceptionPage();
+            app.UseMyExceptionHandler(loggerFactory);
 
             app.UseHttpsRedirection();
 

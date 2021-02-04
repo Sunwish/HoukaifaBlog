@@ -7,25 +7,35 @@ using HoukaifaBlog.Core.Interfaces;
 using HoukaifaBlog.Infrastructure.Database;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace HoukaifaBlog.Api.Controllers
 {
     [Route("api/posts")]
     public class PostController : Controller
     {
-        private readonly MyContext myContext;
         private readonly IPostRepository postRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly ILogger logger;
 
-        public PostController(IPostRepository postRepository, IUnitOfWork unitOfWork)
+        public PostController(
+            IPostRepository postRepository,
+            IUnitOfWork unitOfWork,
+            ILoggerFactory loggerFactory)
         {
             this.postRepository = postRepository;
             this.unitOfWork = unitOfWork;
+            this.logger = loggerFactory.CreateLogger("HoukaifaBlog.Api.Controllers.PostController");
         }
 
         public async Task<IActionResult> Get()
         {
             var posts = await postRepository.GetAllPostAsync();
+
+            logger.LogInformation("Get all posts.....");
+
+            // throw new Exception("Globle Error Handler Test!!!!!");
+
             return Ok(posts);
         }
 
